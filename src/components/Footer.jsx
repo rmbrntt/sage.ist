@@ -1,10 +1,8 @@
 import Link from 'next/link'
 import clsx from 'clsx'
 
-import { Container } from '@/components/Container'
-import {
-  GitHubIcon,
-} from '@/components/SocialIcons'
+import { Container } from '@/components/container'
+import { GitHubIcon } from '@/components/social-icons'
 
 function SocialLink({ className, href, children, icon: Icon }) {
   return (
@@ -24,7 +22,7 @@ function NavLink({ href, children }) {
   return (
     <Link
       href={href}
-      className="transition hover:text-teal-500 dark:hover:text-teal-400 font-semibold"
+      className="font-semibold transition hover:text-teal-500 dark:hover:text-teal-400"
     >
       {children}
     </Link>
@@ -39,11 +37,16 @@ export function Footer() {
           <Container.Inner>
             <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
               <div className="flex gap-6 text-sm font-medium text-zinc-800 dark:text-zinc-200">
-                <SocialLink href="https://github.com/rmbrntt/sage.ist" icon={GitHubIcon} className=""></SocialLink>
+                <SocialLink
+                  href="https://github.com/rmbrntt/sage.ist"
+                  icon={GitHubIcon}
+                  className=""
+                ></SocialLink>
               </div>
               <p className="text-sm text-zinc-400 dark:text-zinc-500">
-                &copy; {new Date().getFullYear()} <NavLink href="https://ryanbarnett.dev">Ryan Barnett</NavLink>. All rights
-                reserved.
+                &copy; {new Date().getFullYear()}{' '}
+                <NavLink href="https://ryanbarnett.dev">Ryan Barnett</NavLink>.
+                All rights reserved.
               </p>
             </div>
           </Container.Inner>
