@@ -1,27 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react'
 import clsx from 'clsx'
-import styles from "./answer.module.css";
+import styles from './answer.module.css'
 
-
-export const Answer = ({ text }) => {
-  const [words, setWords] = useState([]);
+const Answer = ({ text }) => {
+  const [words, setWords] = useState([])
 
   useEffect(() => {
-    setWords(text.split(" "));
-  }, [text]);
+    setWords(text.split(' '))
+  }, [text])
 
   return (
     <div>
       {words.map((word, index) => (
         <span
           key={index}
-          className={clsx(styles.fadeIn, "text-base md:text-xl lg:text-4xl text-zinc-600 dark:text-zinc-400")}
-          
+          className={clsx(
+            styles.fadeIn,
+            'text-base text-zinc-600 dark:text-zinc-400 md:text-xl lg:text-4xl'
+          )}
           style={{ animationDelay: `${index * 0.01}s` }}
         >
-          {word}{" "}
+          {word}{' '}
         </span>
       ))}
     </div>
-  );
-};
+  )
+}
+
+Answer.displayName = 'Answer'
+
+export default Answer;
