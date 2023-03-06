@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import clsx from 'clsx'
 
-import { Container } from '@/components/container'
-import { GitHubIcon } from '@/components/social-icons'
+import { Container } from '@/components/Container'
+import { GitHubIcon } from '@/components/SocialIcons'
 
 function SocialLink({ className, href, children, icon: Icon }) {
   return (

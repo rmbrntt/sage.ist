@@ -1,25 +1,28 @@
-import { OpenAIModel } from "@/types";
+// import { OpenAIModel } from "@/types";
 import { createClient } from "@supabase/supabase-js";
-import { createParser, ParsedEvent, ReconnectInterval } from "eventsource-parser";
+import { createParser } from "eventsource-parser";
 
-export const supabaseAdmin = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!);
+export const supabaseAdmin = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
 
-export const OpenAIStream = async (prompt: string, apiKey: string) => {
+export const OpenAIStream = async (prompt) => {
+  console.log()
   const encoder = new TextEncoder();
   const decoder = new TextDecoder();
+
+  // You are a helpful assistant that accurately answers queries using Stoic Philosopher's essays. Use the text provided to form your answer, but avoid copying word-for-word from the essays. Try to use your own words when possible. Keep your answer under 5 sentences. Be accurate, helpful, concise, and clear.
 
   const res = await fetch("https://api.openai.com/v1/chat/completions", {
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${apiKey}`
+        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`
     },
     method: "POST",
     body: JSON.stringify({
-      model: OpenAIModel.DAVINCI_TURBO,
+      model: 'gpt-3.5-turbo',
       messages: [
         {
           role: "system",
-          content: "You are a helpful assistant that accurately answers queries using Stoic Philosopher's essays. Use the text provided to form your answer, but avoid copying word-for-word from the essays. Try to use your own words when possible. Keep your answer under 5 sentences. Be accurate, helpful, concise, and clear."
+          content: "You are a helpful assistant that accurately answers queries as a modern day Stoic philosopher using stoic essays. Use the text provided to form your answer, but avoid copying word-for-word from the essays. Try to use your own words when possible. Keep your answer under 5 sentences. Be accurate, helpful, concise, and clear."
         },
         {
           role: "user",
@@ -38,7 +41,7 @@ export const OpenAIStream = async (prompt: string, apiKey: string) => {
 
   const stream = new ReadableStream({
     async start(controller) {
-      const onParse = (event: ParsedEvent | ReconnectInterval) => {
+      const onParse = (event) => {
         if (event.type === "event") {
           const data = event.data;
 
@@ -60,7 +63,7 @@ export const OpenAIStream = async (prompt: string, apiKey: string) => {
 
       const parser = createParser(onParse);
 
-      for await (const chunk of res.body as any) {
+      for await (const chunk of res.body) {
         parser.feed(decoder.decode(chunk));
       }
     }

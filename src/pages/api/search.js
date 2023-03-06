@@ -4,20 +4,16 @@ export const config = {
   runtime: "edge"
 };
 
-const handler = async (req: Request): Promise<Response> => {
+const handler = async (req) => {
   try {
-    const { query, apiKey, matches } = (await req.json()) as {
-      query: string;
-      apiKey: string;
-      matches: number;
-    };
+    const { query, matches } = await req.json();
 
     const input = query.replace(/\n/g, " ");
 
     const res = await fetch("https://api.openai.com/v1/embeddings", {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`
+        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`
       },
       method: "POST",
       body: JSON.stringify({

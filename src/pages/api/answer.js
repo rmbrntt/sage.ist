@@ -4,14 +4,11 @@ export const config = {
   runtime: "edge"
 };
 
-const handler = async (req: Request): Promise<Response> => {
+const handler = async (req) => {
   try {
-    const { prompt, apiKey } = (await req.json()) as {
-      prompt: string;
-      apiKey: string;
-    };
+    const { prompt } = await req.json();
 
-    const stream = await OpenAIStream(prompt, apiKey);
+    const stream = await OpenAIStream(prompt);
 
     return new Response(stream);
   } catch (error) {
