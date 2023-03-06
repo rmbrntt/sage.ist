@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { Button } from '@/components/Button'
 import { Container } from '@/components/Container'
-import { Answer } from '@/components/Answer/Answer'
+import Answer from '@/components/Answer/Answer'
 import { SparklesIcon } from '@heroicons/react/20/solid'
 import endent from 'endent'
 import { KeyboardEvent, useEffect, useRef, useState, forwardRef } from 'react'
@@ -10,11 +10,11 @@ const InputForm = forwardRef((props, ref) => {
   const { mode, handleSearch, handleAnswer, value, onChange, onKeyDown } = props
   return (
     <div className="flex items-center justify-center rounded-2xl border-zinc-100 p-6 dark:border-zinc-700/40">
-      <div className="mt-8 mb-4 md:mt-16 md:mb-12 lg:mt-16 lg:mb-14  flex w-11/12 sm:w-10/12 md:w-9/12 lg:w-9/12">
+      <div className="mt-8 mb-4 flex w-11/12 sm:w-10/12 md:mt-16  md:mb-12 md:w-9/12 lg:mt-16 lg:mb-14 lg:w-9/12">
         <input
           type="text"
-          placeholder="On happiness..."
-          aria-label="On happiness..."
+          placeholder="ask a question..."
+          aria-label="ask a question..."
           required
           autoFocus
           ref={ref}
@@ -37,6 +37,8 @@ const InputForm = forwardRef((props, ref) => {
   )
 })
 
+InputForm.displayName = 'InputForm'
+
 export default function Home() {
   const inputRef = useRef(null)
   const [query, setQuery] = useState('')
@@ -48,10 +50,9 @@ export default function Home() {
   const [matchCount, setMatchCount] = useState(5)
 
   const handleSearch = async () => {
-    if (!query) {
-      alert('Please enter a query.')
-      return
-    }
+    // if (!query) {
+    //   setQuery('What is the essence of life?')
+    // }
 
     setAnswer('')
     setChunks([])
@@ -63,7 +64,7 @@ export default function Home() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ query, matches: matchCount }),
+      body: JSON.stringify({ query: query || "What is the essence of life?", matches: matchCount }),
     })
 
     if (!searchResponse.ok) {
@@ -83,10 +84,9 @@ export default function Home() {
   }
 
   const handleAnswer = async () => {
-    if (!query) {
-      alert('Please enter a query.')
-      return
-    }
+    // if (!query) {
+    //   setQuery('What is the essence of life?')
+    // }
 
     setAnswer('')
     setChunks([])
@@ -98,7 +98,7 @@ export default function Home() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ query, matches: matchCount }),
+      body: JSON.stringify({ query: query || "What is the essence of life?", matches: matchCount }),
     })
 
     if (!searchResponse.ok) {
@@ -185,11 +185,11 @@ export default function Home() {
             {mode === 'chat' && (
               <>
                 <div className="mt-1 animate-pulse">
-                  <div className="h-8 xl:h-10 rounded dark:bg-zinc-600 bg-zinc-400"></div>
-                  <div className="mt-2 h-8 xl:h-10 rounded dark:bg-zinc-600 bg-zinc-400"></div>
-                  <div className="mt-2 h-8 xl:h-10 rounded dark:bg-zinc-600 bg-zinc-400"></div>
-                  <div className="mt-2 h-8 xl:h-10 rounded dark:bg-zinc-600 bg-zinc-400"></div>
-                  <div className="mt-2 h-8 xl:h-10 rounded dark:bg-zinc-600 bg-zinc-400"></div>
+                  <div className="h-8 rounded bg-zinc-400 dark:bg-zinc-600 xl:h-10"></div>
+                  <div className="mt-2 h-8 rounded bg-zinc-400 dark:bg-zinc-600 xl:h-10"></div>
+                  <div className="mt-2 h-8 rounded bg-zinc-400 dark:bg-zinc-600 xl:h-10"></div>
+                  <div className="mt-2 h-8 rounded bg-zinc-400 dark:bg-zinc-600 xl:h-10"></div>
+                  <div className="mt-2 h-8 rounded bg-zinc-400 dark:bg-zinc-600 xl:h-10"></div>
                 </div>
               </>
             )}
